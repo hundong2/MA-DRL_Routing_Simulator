@@ -1,5 +1,7 @@
 # Multi-Agent Deep Reinforcement Learning (MA-DRL) Routing Simulator for satellite networks
 
+[한국어 안내](README_kor.md) · [한국어 단계별 학습 가이드](guide/README.md) · [Code architecture](docs/archify/README.md)
+
 Contained in this repository is the code used for simulating data transmissions through satellite constellations and evaluating the latency results through post-processing of the data generated in the simulations.
 
 ## MA-DRL routing demonstration in a moving Kepler constellation from Malaga, Spain to Los Angeles, USA

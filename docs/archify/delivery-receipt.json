@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "deliver",
+  "type": "architecture",
+  "input": "D:\\workspace\\laboratory\\MA-DRL_Routing_Simulator\\docs\\archify\\architecture.json",
+  "output": "D:\\workspace\\laboratory\\MA-DRL_Routing_Simulator\\docs\\archify\\architecture.html",
+  "specification": {
+    "sha256": "ad0ff07183d9bdd86d38f9ba9a087e02bead9ece4eb91ac4577d6ec4306aee6a",
+    "bytes": 5291
+  },
+  "artifact": {
+    "sha256": "6be572ea702257fd1ecf0a67589735b2ffd0982622571c3863ae52661cd014f0",
+    "bytes": 710991
+  },
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionProfile": "showcase",
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  },
+  "evidence": {
+    "verified": true,
+    "repository": "https://github.com/hundong2/MA-DRL_Routing_Simulator",
+    "revision": "29b9325e3938d620ccd017dc1b475ce704fc6dd9",
+    "references": 18
+  }
+}

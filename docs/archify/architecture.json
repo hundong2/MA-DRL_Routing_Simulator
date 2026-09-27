@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "위성 라우팅 시뮬레이터 · 코드 구조",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/hundong2/MA-DRL_Routing_Simulator",
+      "revision": "29b9325e3938d620ccd017dc1b475ce704fc6dd9"
+    }
+  },
+  "layout": {
+    "mode": "grid",
+    "origin": [
+      60,
+      70
+    ],
+    "cols": 4,
+    "cellW": 190,
+    "cellH": 80,
+    "gapX": 100,
+    "gapY": 225
+  },
+  "components": [
+    {
+      "id": "scenario",
+      "type": "external",
+      "label": "실험 입력",
+      "sublabel": "CSV · 지도 · 전역 설정",
+      "row": 0,
+      "col": 0,
+      "size": [
+        190,
+        80
+      ],
+      "sources": [
+        {
+          "path": "inputRL.csv",
+          "line": 1
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 86
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 242
+        }
+      ]
+    },
+    {
+      "id": "runner",
+      "type": "backend",
+      "label": "실행 제어",
+      "sublabel": "RunSimulation",
+      "row": 0,
+      "col": 1,
+      "size": [
+        190,
+        80
+      ],
+      "sources": [
+        {
+          "path": "SimulationRL.py",
+          "line": 6594
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 6798
+        }
+      ]
+    },
+    {
+      "id": "environment",
+      "type": "backend",
+      "label": "환경 초기화",
+      "sublabel": "initialize · Earth",
+      "row": 0,
+      "col": 2,
+      "size": [
+        190,
+        80
+      ],
+      "sources": [
+        {
+          "path": "SimulationRL.py",
+          "line": 4426
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 5128
+        }
+      ]
+    },
+    {
+      "id": "packets",
+      "type": "backend",
+      "label": "패킷 이벤트",
+      "sublabel": "Gateway · Satellite",
+      "row": 0,
+      "col": 3,
+      "size": [
+        190,
+        80
+      ],
+      "sources": [
+        {
+          "path": "SimulationRL.py",
+          "line": 911
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 1055
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 1360
+        }
+      ]
+    },
+    {
+      "id": "results",
+      "type": "external",
+      "label": "측정 결과",
+      "sublabel": "CSV · 그림 · 모델",
+      "row": 1,
+      "col": 1,
+      "size": [
+        190,
+        80
+      ],
+      "sources": [
+        {
+          "path": "SimulationRL.py",
+          "line": 6677
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 6435
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 6055
+        }
+      ]
+    },
+    {
+      "id": "topology",
+      "type": "backend",
+      "label": "이동과 재연결",
+      "sublabel": "moveConstellation",
+      "row": 1,
+      "col": 2,
+      "size": [
+        190,
+        80
+      ],
+      "sources": [
+        {
+          "path": "SimulationRL.py",
+          "line": 3355
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 2798
+        }
+      ]
+    },
+    {
+      "id": "policy",
+      "type": "backend",
+      "label": "다음 hop 학습",
+      "sublabel": "DDQNAgent · Replay",
+      "row": 1,
+      "col": 3,
+      "size": [
+        190,
+        80
+      ],
+      "sources": [
+        {
+          "path": "SimulationRL.py",
+          "line": 4144
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 4332
+        },
+        {
+          "path": "SimulationRL.py",
+          "line": 4375
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "read-input",
+      "from": "scenario",
+      "to": "runner",
+      "label": "읽기"
+    },
+    {
+      "id": "initialize-env",
+      "from": "runner",
+      "to": "environment",
+      "label": "초기화"
+    },
+    {
+      "id": "register-events",
+      "from": "environment",
+      "to": "packets",
+      "label": "등록"
+    },
+    {
+      "id": "write-result",
+      "from": "runner",
+      "to": "results",
+      "label": "종료 후 저장",
+      "labelAt": [445, 164],
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "move-links",
+      "from": "environment",
+      "to": "topology",
+      "label": "이동 예약",
+      "labelAt": [735, 164],
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "decide-hop",
+      "from": "packets",
+      "to": "policy",
+      "label": "관측·선택",
+      "labelAt": [1025, 164],
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "단일 프로세스",
+      "items": [
+        "SimPy가 링크별 FIFO 이벤트를 실행",
+        "위성별 agent는 원격 서비스가 아님"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "로컬 파일 경계",
+      "items": [
+        "기본 설정은 H5 모델을 불러옴",
+        "CSV 저장 단위는 초, 그림은 ms"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "분석 범위",
+      "items": [
+        "SimulationRL.py의 대표 실행 경로",
+        "전체 학습·궤도 정확성 검증은 별도"
+      ]
+    }
+  ]
+}
